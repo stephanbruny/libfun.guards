@@ -4,9 +4,11 @@
   let throwTypeError = message => { throw new TypeError(message) };
   
   let type = t => val => (typeof(val) === t);
+  
+  let defaultValidator = (v => v !== undefined && v !== null);
 
   let guardFn = (guardType, typeErrorMessage) => (defaultValue, validator, validateErrorMessage) => {
-    validator = validator || (v => v !== undefined && v !== null);
+    validator = validator || defaultValidator;
     let guardTypeFn = ((typeof(guardType) === 'function') ? guardType : type(guardType));
     return val => 
     	val ? 
@@ -15,7 +17,7 @@
         	val 
           : throwTypeError(typeErrorMessage || "Invalid type (" + typeof(val) + ') ' + guardType + ' expected')
         : throwTypeError(validateErrorMessage || ("Invalid value " + val))
-      : defaultValue ? 
+      : defaultValidator(defaultValue) ? 
       	guardTypeFn(defaultValue) ? 
         	defaultValue 
           : throwTypeError("Invalid default value for type " + guardType)
