@@ -3,19 +3,23 @@
   
   let throwTypeError = message => { throw new TypeError(message) };
   
-  
-  let type = (t, val) => (typeof(val) === t)  ? val : throwTypeError("Invalid type. " + t + " expected.")
-  
-  let guardFn = (guardType) => (defaultValue, validator, validateErrorMessage) => {
-    validator = validator || (() => true);
-    return val => val ?
-      validator(val || defaultValue) ? 
-        ((typeof(guardType) === 'function') ? 
-        	guardType(val) 
-          : type(guardType, val) 
-         ) ? val : throwTypeError("Invalid type " + typeof(val)) 
-         : throwTypeError(validateErrorMessage || ("Invalid value " + val)) 
-      : defaultValue;
+  let type = t => val => (typeof(val) === t);
+
+  let guardFn = (guardType, typeErrorMessage) => (defaultValue, validator, validateErrorMessage) => {
+    validator = validator || (v => v !== undefined && v !== null);
+    let guardTypeFn = ((typeof(guardType) === 'function') ? guardType : type(guardType));
+    return val => 
+    	val ? 
+    	validator(val) ? 
+      	guardTypeFn(val) ? 
+        	val 
+          : throwTypeError(typeErrorMessage || "Invalid type (" + typeof(val) + ') ' + guardType + ' expected')
+        : throwTypeError(validateErrorMessage || ("Invalid value " + val))
+      : defaultValue ? 
+      	guardTypeFn(defaultValue) ? 
+        	defaultValue 
+          : throwTypeError("Invalid default value for type " + guardType)
+        : throwTypeError("Cannot create guard value from null or undefined (Forgot default?)")
   };
   
   let guardSchema = (schema) => (val) => {
