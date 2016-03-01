@@ -2,14 +2,14 @@
   'use strict';
   
   let throwTypeError = message => { throw new TypeError(message) };
-  
+
   let type = t => val => (typeof(val) === t);
   
   let defaultValidator = (v => v !== undefined && v !== null);
-
-  let guardFn = (guardType, typeErrorMessage) => (defaultValue, validator, validateErrorMessage) => {
+  
+  let guardFn = (guardType, typeErrorMessage, guardTypeFn) => (defaultValue, validator, validateErrorMessage) => {
     validator = validator || defaultValidator;
-    let guardTypeFn = ((typeof(guardType) === 'function') ? guardType : type(guardType));
+    guardTypeFn = ((typeof(guardTypeFn) === 'function') ? guardTypeFn : type(guardType));
     return val => 
     	val ? 
     	validator(val) ? 
@@ -34,9 +34,10 @@
   
   let guard = {
     Number: guardFn('number'),
+    Integer: guardFn( 'integer', 'Invalid integer value', i => Number(i) === i && i % 1 === 0 ),
     String: guardFn('string'),
     Bool: guardFn('boolean'),
-    Array: guardFn( v => Array.isArray(v) ),
+    Array: guardFn( 'array' , 'Array expected', v => Array.isArray(v) ),
     Object: guardFn('object'),
     Schema: guardSchema
   }
