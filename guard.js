@@ -42,5 +42,12 @@
     Schema: guardSchema
   }
   
-  return guard;
+  /* Exporting */
+  if (window) { // Browser
+    window.libfun = window.libfun || {};
+    return window.libfun.guards = guard;
+  }
+  if (module) { // Node.JS
+    module.exports = guard;
+  }
 })();
