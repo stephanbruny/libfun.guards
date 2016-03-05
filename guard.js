@@ -39,7 +39,9 @@
     Bool: guardFn('boolean'),
     Array: guardFn( 'array' , 'Array expected', v => Array.isArray(v) ),
     Object: guardFn('object'),
-    Schema: guardSchema
+    Schema: guardSchema,
+    Function: guardfn('function'),
+    Dynamic: (t, v) => guardFn(typeof(t))(t, v)
   }
   
   /* Exporting */
