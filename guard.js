@@ -44,12 +44,5 @@
     Dynamic: (t, v) => guardFn(typeof(t))(t, v)
   }
   
-  /* Exporting */
-  if (window) { // Browser
-    window.libfun = window.libfun || {};
-    return window.libfun.guards = guard;
-  }
-  if (module) { // Node.JS
-    module.exports = guard;
-  }
+  module.exports = guard;
 })();
