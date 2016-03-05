@@ -40,7 +40,7 @@
     Array: guardFn( 'array' , 'Array expected', v => Array.isArray(v) ),
     Object: guardFn('object'),
     Schema: guardSchema,
-    Function: guardfn('function'),
+    Function: guardFn('function'),
     Dynamic: (t, v) => guardFn(typeof(t))(t, v)
   }
   
