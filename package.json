@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Type guards for javascript",
   "author": "Stephan Bruny",
-  "main": "./guards.js",
+  "main": "guard.js",
   "license": "MIT",
   "engine": "node 5.1.1"
 }
