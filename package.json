@@ -1,0 +1,8 @@
+{
+  "name": "libfun-guards",
+  "description": "Type guards for javascript",
+  "author": "Stephan Bruny"
+  "main": "./guards.js",
+  "license": "MIT",
+  "engine": "node 5.1.1"
+}
