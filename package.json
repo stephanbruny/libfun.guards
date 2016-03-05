@@ -1,5 +1,6 @@
 {
   "name": "libfun-guards",
+  "version": "0.1.0",
   "description": "Type guards for javascript",
   "author": "Stephan Bruny",
   "main": "./guards.js",
