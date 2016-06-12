@@ -11,7 +11,7 @@
     validator = validator || defaultValidator;
     guardTypeFn = ((typeof(guardTypeFn) === 'function') ? guardTypeFn : type(guardType));
     return val => 
-    	val ? 
+    	validator ? 
     	validator(val) ? 
       	guardTypeFn(val) ? 
         	val 
